@@ -70,7 +70,7 @@ func (v Vec2) subVec2(v1, v2 Vec2) Vec2 {
 *
 * All methods for Vec3
 *
-*  Any methods such as mulVec, addVec etc are meant to reduce copies of Vecs, no need to create a vec for the sole reason of adding it
+*  Any methods such as mulVec, addVec  are meant to reduce copies of Vecs, no need to create a vec for the sole reason of adding it
  */
 
 func newVec3(x, y, z float64) Vec3 {

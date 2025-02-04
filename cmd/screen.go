@@ -14,7 +14,3 @@ type Screen struct {
 func NewScreen(width, height int) *Screen {
 	return &Screen{width: width, height: height, pixels: make([][]Pixel, height*width)}
 }
-
-func (s *Screen) DrawStraightLine(x1, x2 float64) {
-		
-}
