@@ -1,69 +1,13 @@
 package main
 
 import (
-	"log"
-	"math"
-
+	"AsciiRenderer/cmd"
 	"github.com/gdamore/tcell/v2"
+	"log"
 )
 
-func drawText(s tcell.Screen, x1, y1, x2, y2 int, style tcell.Style, text string) {
-	row := y1
-	col := x1
-	for _, r := range []rune(text) {
-		s.SetContent(col, row, r, nil, style)
-		col++
-		if col >= x2 {
-			row++
-			col = x1
-		}
-		if row > y2 {
-			break
-		}
-	}
-}
-
-// Bresenhams line algorithm implemented from: https://zingl.github.io/bresenham.html
-func drawLine(s tcell.Screen, x0, y0, x1, y1 int, style tcell.Style) {
-	dx := int(math.Abs(float64(x1 - x0)))
-	dy := -int(math.Abs(float64(y1 - y0)))
-	sx := 0
-	sy := 0
-	err := dx + dy
-	if x0 < x1 {
-		sx = 1
-	} else {
-		sx = -1
-	}
-	if y0 < y1 {
-		sy = 1
-	} else {
-		sy = -1
-	}
-	for {
-		s.SetContent(x0, y0, '@', nil, style)
-		e2 := 2 * err
-		if e2 >= dy {
-			if x0 == x1 {
-				break
-			} else {
-				err += dy
-				x0 += sx
-			}
-		}
-		if e2 <= dx {
-			if x0 == x1 {
-				break
-			} else {
-				err += dx
-				y0 += sy
-			}
-		}
-	}
-}
-
 func main() {
-	defStyle := tcell.StyleDefault.Background(tcell.ColorReset).Foreground(tcell.ColorReset)
+	defStyle := tcell.StyleDefault.Background(tcell.ColorReset).Foreground(tcell.ColorRed)
 	//boxStyle := tcell.StyleDefault.Foreground(tcell.ColorWhite).Background(tcell.ColorPurple)
 
 	// Initialize screen
@@ -81,7 +25,8 @@ func main() {
 
 	width, height := s.Size()
 
-	drawLine(s, 0, 0, width-1, height-1, defStyle)
+	cmd.DrawLine(s, 0, 0, width, height, defStyle)
+	cmd.DrawLine(s, width, 0, 0, height, defStyle)
 	quit := func() {
 		// panics have to be caught or else program will crash without a trace
 		maybePanic := recover()
@@ -104,6 +49,12 @@ func main() {
 		switch ev := ev.(type) {
 		case *tcell.EventResize:
 			s.Sync()
+			s.Clear()
+			width, height := s.Size()
+
+			cmd.DrawLine(s, 0, 0, width, height, defStyle)
+			cmd.DrawLine(s, width, 0, 0, height, defStyle)
+			cmd.DrawSquare(s, width/2-(width/20), height/3, 10, 10)
 		case *tcell.EventKey:
 			if ev.Key() == tcell.KeyEscape || ev.Key() == tcell.KeyCtrlC {
 				return

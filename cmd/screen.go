@@ -11,6 +11,4 @@ type Screen struct {
 	pixels [][]Pixel
 }
 
-func NewScreen(width, height int) *Screen {
-	return &Screen{width: width, height: height, pixels: make([][]Pixel, height*width)}
-}
+// Uhm prob not gonna need this

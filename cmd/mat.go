@@ -1,5 +1,12 @@
 package cmd
 
+import "math"
+
+/*
+Mat4
+1D array representation of a 2D matrix, [col][row] can be accessed with
+Mat[col + row * 4]
+*/
 type Mat3 [3 * 3]float64
 type Mat4 [4 * 4]float64
 
@@ -59,4 +66,28 @@ func SubMat4(a, b Mat4) Mat4 {
 func MulMat4(a, b Mat4) Mat4 {
 	newMat := a.Mul(b)
 	return newMat
+}
+
+/*
+Common graphics matrices
+*/
+
+func NewPerspectiveMatrix(aspect, fov, far, near float64) Mat4 {
+	return Mat4{
+		1 / (aspect * math.Tan(fov/2)), 0, 0, 0, // Row one
+		0, 1 / (math.Tan(fov / 2)), 0, 0, // Row two
+		0, 0, -(far + near/far - near), -((2 * far * near) / (far - near)), // Row three
+		0, 0, -1, 0, // Row four
+	}
+}
+
+/*
+The RotateX function takes in an angle, theta and rotates by that many degrees around the x-axis
+*/
+func RotateX(theta float64) Mat4 {
+	return Mat4{}
+}
+
+func (m Mat4) Translate(Tx, Ty, Tz float64) Mat4 {
+	return Mat4{}
 }
