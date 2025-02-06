@@ -44,6 +44,37 @@ func DrawLine(s tcell.Screen, x0, y0, x1, y1 int, style tcell.Style) {
 	}
 }
 
+// DrawLine3D :
+// Bresenhams line algorithm for 3D implemented from: https://zingl.github.io/bresenham.html
+func DrawLine3D(s tcell.Screen, x0, y0, z0, x1, y1, z1 int, style tcell.Style) {
+
+	dx := int(math.Abs(float64(x1 - x0)))
+	sx := 0
+	if x0 < x1 {
+		sx = 1
+	} else {
+		sx = -1
+	}
+	dy := int(math.Abs(float64(y1 - y0)))
+	sy := 0
+	if y0 < y1 {
+		sy = 1
+	} else {
+		sy = -1
+	}
+
+	dz := int(math.Abs(float64(z1 - z0)))
+	sz := 0
+	if z0 < z1 {
+		sz = 1
+	} else {
+		sz = -1
+	}
+
+	// ternary shit for rn
+
+}
+
 /*
 					x0, y0				x0 + width, y0
 	 				-----------------
@@ -87,4 +118,12 @@ func DrawText(s tcell.Screen, x1, y1, x2, y2 int, style tcell.Style, text string
 
 func Render(s tcell.Screen) {
 
+}
+
+// NewCamera
+// Creates a new camera matrix which is derived by multiplying
+// the model, view and projection matrices passed in
+// /*
+func NewCamera(model, view, projection Mat4) Mat4 {
+	return model.Mul(view).Mul(projection)
 }
